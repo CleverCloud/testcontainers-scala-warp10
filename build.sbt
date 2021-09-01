@@ -13,7 +13,7 @@ lazy val root = (project in file(".")).
       version := testContainersScalaVersion,
     )),
     name := "testcontainers-scala-warp10",
-    licenses := List("MIT" -> new URL("https://mit-license.org/"))
+    licenses := List("MIT" -> new URL("https://mit-license.org/")),
     homepage := Some(url("https://github.com/CleverCloud/testcontainers-scala-warp10")),
     libraryDependencies ++= Seq(
       "com.dimafeng" %% "testcontainers-scala-core" % testContainersScalaVersion,
