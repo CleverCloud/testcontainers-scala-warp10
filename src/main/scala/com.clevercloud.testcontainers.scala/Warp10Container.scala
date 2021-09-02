@@ -1,4 +1,4 @@
-package com.clevercloud.testcontainers
+package com.clevercloud.testcontainers.scala
 
 import com.clevercloud.testcontainers.warp10.{Warp10Container => JavaWarp10Container}
 import com.dimafeng.testcontainers._
@@ -37,11 +37,11 @@ object Warp10Container {
     override type Container = Warp10Container
 
     override def createContainer(): Warp10Container = {
-      new Warp10Container(tag)
+      Warp10Container(tag)
     }
 
     def createWithMacros(macrosFolder: File): Warp10Container = {
-      new Warp10Container(tag, Some(macrosFolder))
+      Warp10Container(tag, Some(macrosFolder))
     }
 
   }
