@@ -1,7 +1,6 @@
 package com.clevercloud.testcontainers
 
 import com.clevercloud.testcontainers.warp10.{Warp10Container => JavaWarp10Container}
-import org.testcontainers.utility.DockerImageName
 import com.dimafeng.testcontainers._
 
 import java.io.File
