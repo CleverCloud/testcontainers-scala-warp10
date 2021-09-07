@@ -1,6 +1,6 @@
 
 lazy val testContainersScalaVersion = "0.39.6"
-lazy val testContainersWarp10Version = "1.0.2"
+lazy val testContainersWarp10Version = "1.0.3"
 lazy val akkaVersion = "2.6.14"
 
 credentials += Credentials("GnuPG Key ID", "gpg", "B11C53C05D413713BDD3660FA7B8F38C536F1DF2", "ignored")
@@ -10,7 +10,7 @@ lazy val root = (project in file(".")).
     inThisBuild(List(
       organization := "com.clever-cloud",
       scalaVersion := "2.13.6",
-      version := "1.0.0",
+      version := "1.0.1",
     )),
     name := "testcontainers-scala-warp10",
     licenses := List("MIT" -> new URL("https://mit-license.org/")),
