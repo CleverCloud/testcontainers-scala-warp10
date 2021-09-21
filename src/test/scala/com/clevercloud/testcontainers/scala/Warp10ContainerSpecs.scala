@@ -1,4 +1,4 @@
-package com.clevercloud.testcontainers
+package com.clevercloud.testcontainers.scala
 
 import akka.http.scaladsl.model.{HttpEntity, HttpMethods}
 import akka.actor.testkit.typed.scaladsl.ActorTestKit
@@ -7,7 +7,7 @@ import akka.http.scaladsl.unmarshalling.Unmarshal
 import io.moia.scalaHttpClient._
 import org.scalatest.concurrent.Eventually
 import org.scalatest.matchers.should.Matchers
-import org.scalatest.time.{Milliseconds, Minutes, Seconds, Span}
+import org.scalatest.time.{Milliseconds, Seconds, Span}
 import org.scalatest.wordspec.AnyWordSpec
 import com.dimafeng.testcontainers.ForAllTestContainer
 
@@ -53,8 +53,8 @@ class Warp10ContainerSpecs extends AnyWordSpec
             case HttpClientSuccess(content) =>
               content.status.isSuccess() shouldBe (true)
               content.headers.find(_.lowercaseName() == Warp10FetchedHeader.toLowerCase()).map(_.value().toInt).getOrElse(0) shouldBe (1)
-            case _ =>
-              "error" shouldBe(false)
+            case _                          =>
+              "error" shouldBe (false)
           }
         case DomainError(content) =>
           Unmarshal(content).to[String] shouldBe (false)

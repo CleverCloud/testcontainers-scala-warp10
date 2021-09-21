@@ -1,6 +1,6 @@
 
 lazy val testContainersScalaVersion = "0.39.6"
-lazy val testContainersWarp10Version = "1.0.3"
+lazy val testContainersWarp10Version = "1.0.4"
 lazy val akkaVersion = "2.6.14"
 
 credentials += Credentials("GnuPG Key ID", "gpg", "B11C53C05D413713BDD3660FA7B8F38C536F1DF2", "ignored")

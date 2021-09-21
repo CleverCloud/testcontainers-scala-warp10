@@ -5,14 +5,25 @@ import com.dimafeng.testcontainers._
 
 import java.io.File
 
+/** Create a Warp10 container
+ *
+ * @param tag          The version tag for the docker image
+ * @param macrosFolder Optional File that points to a folder of macros to install server-side.
+ * @param configFolder Optional File that points to a folder of config file templates.
+ *                     The files inside the folder **must** be named like NN-something.conf.template,
+ *                     as it will be put inside the template folder.
+ */
 case class Warp10Container(
   tag: String,
   macrosFolder: Option[File] = None,
+  configFolder: Option[File] = None,
 ) extends SingleContainer[JavaWarp10Container] {
 
-  override val container: JavaWarp10Container = macrosFolder match {
-    case None    => new JavaWarp10Container(tag)
-    case Some(f) => new JavaWarp10Container(tag, f)
+  override val container: JavaWarp10Container = (macrosFolder, configFolder) match {
+    case (None, None)         => new JavaWarp10Container(tag)
+    case (Some(f), None)      => new JavaWarp10Container(tag, f)
+    case (None, Some(f2))     => new JavaWarp10Container(tag, null, f2)
+    case (Some(f1), Some(f2)) => new JavaWarp10Container(tag, f1, f2)
   }
 
   def httpHost: String = container.getHTTPHost
