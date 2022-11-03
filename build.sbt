@@ -1,7 +1,7 @@
 
 lazy val testContainersScalaVersion = "0.40.11"
 lazy val testContainersWarp10Version = "1.0.6"
-lazy val akkaVersion = "2.6.14"
+lazy val akkaVersion = "2.6.20"
 
 credentials += Credentials("GnuPG Key ID", "gpg", "B11C53C05D413713BDD3660FA7B8F38C536F1DF2", "ignored")
 
@@ -27,6 +27,7 @@ lazy val root = (project in file(".")).
       "com.typesafe.akka" %% "akka-stream" % akkaVersion % Test,
       "com.typesafe.akka" %% "akka-actor-testkit-typed" % akkaVersion % Test,
       "com.dimafeng" %% "testcontainers-scala-scalatest" % testContainersScalaVersion % Test,
+      "org.slf4j" % "slf4j-jdk14" % "1.7.25" % Test,
       "io.moia" %% "scala-http-client" % "5.1.0" % Test,
     ),
     publishMavenStyle := true,
