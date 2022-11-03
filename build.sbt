@@ -10,7 +10,7 @@ lazy val root = (project in file(".")).
     inThisBuild(List(
       organization := "com.clever-cloud",
       scalaVersion := "2.13.10",
-      version := "2.0.1",
+      version := "2.0.2",
     )),
     name := "testcontainers-scala-warp10",
     licenses := List("MIT" -> new URL("https://mit-license.org/")),
