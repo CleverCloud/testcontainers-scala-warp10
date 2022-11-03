@@ -1,6 +1,6 @@
 
-lazy val testContainersScalaVersion = "0.39.6"
-lazy val testContainersWarp10Version = "1.0.5"
+lazy val testContainersScalaVersion = "0.40.11"
+lazy val testContainersWarp10Version = "1.0.6"
 lazy val akkaVersion = "2.6.14"
 
 credentials += Credentials("GnuPG Key ID", "gpg", "B11C53C05D413713BDD3660FA7B8F38C536F1DF2", "ignored")
@@ -9,24 +9,25 @@ lazy val root = (project in file(".")).
   settings(
     inThisBuild(List(
       organization := "com.clever-cloud",
-      scalaVersion := "2.13.6",
-      version := "2.0.0",
+      scalaVersion := "2.13.10",
+      version := "2.0.1",
     )),
     name := "testcontainers-scala-warp10",
     licenses := List("MIT" -> new URL("https://mit-license.org/")),
     homepage := Some(url("https://github.com/CleverCloud/testcontainers-scala-warp10")),
+    resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
       "com.dimafeng" %% "testcontainers-scala-core" % testContainersScalaVersion,
       "com.clever-cloud" % "testcontainers-warp10" % testContainersWarp10Version,
 
-      "net.java.dev.jna" % "jna" % "5.8.0" % Test,
-      "org.scalatest" %% "scalatest" % "3.2.2" % Test,
+      "net.java.dev.jna" % "jna" % "5.12.1" % Test,
+      "org.scalatest" %% "scalatest" % "3.2.14" % Test,
       "com.typesafe.akka" %% "akka-protobuf-v3" % akkaVersion % Test,
       "com.typesafe.akka" %% "akka-stream-typed" % akkaVersion % Test,
       "com.typesafe.akka" %% "akka-stream" % akkaVersion % Test,
       "com.typesafe.akka" %% "akka-actor-testkit-typed" % akkaVersion % Test,
       "com.dimafeng" %% "testcontainers-scala-scalatest" % testContainersScalaVersion % Test,
-      "io.moia" %% "scala-http-client" % "4.3.1" % Test,
+      "io.moia" %% "scala-http-client" % "5.1.0" % Test,
     ),
     publishMavenStyle := true,
     Test / publishArtifact := false,
