@@ -1,19 +1,20 @@
 package com.clevercloud.testcontainers.scala
 
-import akka.http.scaladsl.model.{HttpEntity, HttpMethods}
+import akka.http.scaladsl.model.{ HttpEntity, HttpMethods }
 import akka.actor.testkit.typed.scaladsl.ActorTestKit
+import akka.actor.typed.ActorSystem
 import akka.http.scaladsl.model.headers.RawHeader
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import io.moia.scalaHttpClient._
 import org.scalatest.concurrent.Eventually
 import org.scalatest.matchers.should.Matchers
-import org.scalatest.time.{Milliseconds, Seconds, Span}
+import org.scalatest.time.{ Milliseconds, Seconds, Span }
 import org.scalatest.wordspec.AnyWordSpec
 import com.dimafeng.testcontainers.ForAllTestContainer
 
 import java.time.Clock
-import scala.concurrent.{Await, Future}
-import scala.concurrent.duration.{Deadline, DurationInt}
+import scala.concurrent.{ Await, ExecutionContextExecutor, Future }
+import scala.concurrent.duration.{ Deadline, DurationInt }
 
 
 class Warp10ContainerSpecs extends AnyWordSpec
@@ -30,12 +31,12 @@ class Warp10ContainerSpecs extends AnyWordSpec
   private val Warp10UpdateAPI = "/api/v0/update"
   private val Warp10Version = "2.7.5"
 
-  val container = Warp10Container(Warp10Version)
+  val container: Warp10Container = Warp10Container(Warp10Version)
 
   private val testKit = ActorTestKit()
 
-  implicit val system = testKit.system
-  implicit val ec = system.executionContext
+  implicit val system: ActorSystem[Nothing]     = testKit.system
+  implicit val ec    : ExecutionContextExecutor = system.executionContext
 
   "warp10 testcontainer" should {
     "give write token" in {
