@@ -55,12 +55,13 @@ class Warp10ContainerSpecs extends AnyWordSpec
               content.status.isSuccess() shouldBe (true)
               content.headers.find(_.lowercaseName() == Warp10FetchedHeader.toLowerCase()).map(_.value().toInt).getOrElse(0) shouldBe (1)
             case _                          =>
-              "error" shouldBe (false)
+              assert(false)
           }
         case DomainError(content) =>
-          Unmarshal(content).to[String] shouldBe (false)
+          val result = Await.result(Unmarshal(content).to[String], 10.seconds)
+          assert(false, result)
         case _                    =>
-          "error" shouldBe (false)
+          assert(false)
       }
     }
   }
