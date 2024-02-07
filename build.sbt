@@ -8,12 +8,10 @@ credentials += Credentials("GnuPG Key ID", "gpg", "B11C53C05D413713BDD3660FA7B8F
 
 lazy val root = (project in file(".")).
   settings(
-    inThisBuild(List(
-      organization := "com.clever-cloud",
-      scalaVersion := "2.13.11",
-      version := "2.1.0",
-      crossScalaVersions += "3.3.1"
-    )),
+    organization := "com.clever-cloud",
+    scalaVersion := "2.13.11",
+    version := "2.1.0",
+    crossScalaVersions := Seq(scalaVersion.value, "3.3.1"),
     name := "testcontainers-scala-warp10",
     licenses := List("MIT" -> new URL("https://mit-license.org/")),
     homepage := Some(url("https://github.com/CleverCloud/testcontainers-scala-warp10")),
