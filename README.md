@@ -2,8 +2,12 @@
 
 Wraps com.clever-cloud:testcontainers-warp10 to use with testcontainers-scala.
 
-## Use this in tests
+Available for scala 2.13 and 3.
 
-For now, the lib is not available on a public repository.
+## How to use
 
-For example usage, please check Warp10ContainerSpecs.scala in this repo.
+### sbt
+
+```
+libraryDependencies += "com.clever-cloud" % "testcontainers-scala-warp10" %% "2.1.1"
+```
