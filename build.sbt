@@ -1,6 +1,6 @@
-lazy val testContainersScalaVersion = "0.41.0"
-lazy val testContainersWarp10Version = "1.0.6"
-lazy val akkaVersion = "2.8.0"
+lazy val testContainersScalaVersion = "0.41.5"
+lazy val testContainersWarp10Version = "1.0.7"
+lazy val akkaVersion = "2.8.8"
 
 ThisBuild / semanticdbVersion := "4.8.14"
 
@@ -9,9 +9,9 @@ credentials += Credentials("GnuPG Key ID", "gpg", "B11C53C05D413713BDD3660FA7B8F
 lazy val root = (project in file(".")).
   settings(
     organization := "com.clever-cloud",
-    scalaVersion := "2.13.11",
-    version := "2.1.0",
-    crossScalaVersions := Seq(scalaVersion.value, "3.3.1"),
+    scalaVersion := "2.13.15",
+    version := "2.1.1",
+    crossScalaVersions := Seq(scalaVersion.value, "3.3.4", "3.6.2"),
     name := "testcontainers-scala-warp10",
     licenses := List("MIT" -> new URL("https://mit-license.org/")),
     homepage := Some(url("https://github.com/CleverCloud/testcontainers-scala-warp10")),
@@ -51,5 +51,5 @@ lazy val root = (project in file(".")).
       Developer("judu", "Julien Durillon", "julien.durillon@clever-cloud.com", url("https://github.com/judu"))
     ),
     Test / fork := true,
-    usePgpKeyHex("B11C53C05D413713BDD3660FA7B8F38C536F1DF2"),
+    usePgpKeyHex("A7B8F38C536F1DF2"),
   )
