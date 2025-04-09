@@ -8,20 +8,13 @@ import akka.http.scaladsl.unmarshalling.Unmarshal
 import io.moia.scalaHttpClient._
 import org.scalatest.concurrent.Eventually
 import org.scalatest.matchers.should.Matchers
-import org.scalatest.time.{ Milliseconds, Seconds, Span }
 import org.scalatest.wordspec.AnyWordSpec
 import com.dimafeng.testcontainers.ForAllTestContainer
-
 import java.time.Clock
 import scala.concurrent.{ Await, ExecutionContextExecutor, Future }
 import scala.concurrent.duration.{ Deadline, DurationInt }
 
-
-class Warp10ContainerSpecs extends AnyWordSpec
-                                   with Matchers
-                                   with Eventually
-                                   with ForAllTestContainer {
-
+class Warp10ContainerSpecs extends AnyWordSpec with Matchers with Eventually with ForAllTestContainer {
 
   private val Warp10AuthHeader = "X-Warp10-Token"
   private val Warp10FetchAPI = "/api/v0/exec"
@@ -29,7 +22,7 @@ class Warp10ContainerSpecs extends AnyWordSpec
   private val Warp10FetchedHeader = "X-Warp10-Fetched"
   private val Warp10GTS = "1// test{} 42"
   private val Warp10UpdateAPI = "/api/v0/update"
-  private val Warp10Version = "2.7.5"
+  private val Warp10Version = "3.4.1-ubuntu-ci"
 
   val container: Warp10Container = Warp10Container(Warp10Version)
 
@@ -39,29 +32,27 @@ class Warp10ContainerSpecs extends AnyWordSpec
   implicit val ec    : ExecutionContextExecutor = system.executionContext
 
   "warp10 testcontainer" should {
+
     "give write token" in {
       container.container.isRunning shouldBe (true)
 
       assert(container.readToken != null)
       assert(container.writeToken != null)
     }
-    "write to and read from warp10" in {
-      implicit val patienceConfig: PatienceConfig = PatienceConfig(timeout = Span(5, Seconds), interval = Span(50, Milliseconds))
 
+    "write to and read from warp10" in {
       Await.result(warp10Request(container, Warp10UpdateAPI, Warp10GTS, Some(container.writeToken)), 10.seconds) match {
         case HttpClientSuccess(_) =>
           Await.result(warp10Request(container, Warp10FetchAPI, String.format(Warp10FetchGTS, container.readToken), None), 5.seconds) match {
             case HttpClientSuccess(content) =>
               content.status.isSuccess() shouldBe (true)
               content.headers.find(_.lowercaseName() == Warp10FetchedHeader.toLowerCase()).map(_.value().toInt).getOrElse(0) shouldBe (1)
-            case _                          =>
-              assert(false)
+            case _  => assert(false)
           }
         case DomainError(content) =>
           val result = Await.result(Unmarshal(content).to[String], 10.seconds)
           assert(false, result)
-        case _                    =>
-          assert(false)
+        case _ => assert(false)
       }
     }
   }
