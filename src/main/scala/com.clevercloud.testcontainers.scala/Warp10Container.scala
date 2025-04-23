@@ -40,7 +40,7 @@ case class Warp10Container(
 }
 
 object Warp10Container {
-  val defaultTag = "2.7.5"
+  val defaultTag = "3.4.1-ubuntu-ci"
 
   case class Def(
     tag: String,

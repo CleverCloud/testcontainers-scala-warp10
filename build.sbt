@@ -1,5 +1,5 @@
 lazy val testContainersScalaVersion = "0.41.5"
-lazy val testContainersWarp10Version = "1.0.8"
+lazy val testContainersWarp10Version = "2.0.1"
 lazy val akkaVersion = "2.8.8"
 
 ThisBuild / semanticdbVersion := "4.12.1"
@@ -9,7 +9,7 @@ credentials += Credentials("GnuPG Key ID", "gpg", "B11C53C05D413713BDD3660FA7B8F
 lazy val root = (project in file(".")).settings(
   organization := "com.clever-cloud",
   scalaVersion := "2.13.15",
-  version := "2.1.2",
+  version := "2.1.3",
   crossScalaVersions := Seq(scalaVersion.value, "3.6.2"),
   name := "testcontainers-scala-warp10",
   licenses := List("MIT" -> new URI("https://mit-license.org/").toURL()),
