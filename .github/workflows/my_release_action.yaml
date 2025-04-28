@@ -1,29 +1,158 @@
-name: Publish package to the Maven Central Repository
+name: release
+
 on:
-  release:
-    types: [created]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "The release version"
+        required: true
+      branch:
+        description: "The branch to release from"
+        required: true
+        default: "master"
+
 jobs:
-  publish:
+  release-scala-2-12:
     runs-on: ubuntu-latest
     steps:
-      - name: Install gpg secret key
-        run: |
-          cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
-      - name: Checkout
+      - name: checkout the repo
         uses: actions/checkout@v2
-      - name: Set up Maven Central Repository
-        uses: actions/setup-java@v2
         with:
-          java-version: "11"
-          distribution: "adopt"
-          server-id: ossrh
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
+          fetch-depth: 0
+
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: docker-compose
+          version: 1.0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
       - name: Setup sbt launcher
         uses: sbt/setup-sbt@v1
-      - name: Publish package
-        run: sbt publishSigned
+
+      - name: Launch pulsar docker
+        run: docker-compose up -d
+
+      - name: Import GPG key
+        id: import_gpg
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PGP_PASSPHRASE }}
+
+      - name: GPG user IDs
+        run: |
+          echo "fingerprint: ${{ steps.import_gpg.outputs.fingerprint }}"
+          echo "keyid:       ${{ steps.import_gpg.outputs.keyid }}"
+          echo "name:        ${{ steps.import_gpg.outputs.name }}"
+          echo "email:       ${{ steps.import_gpg.outputs.email }}"
+
+      - name: run tests
+        run: sbt ++2.12 test
+
+      - name: publish release
+        run: sbt ++2.12 publishSigned
         env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          RELEASE_VERSION: ${{ github.event.inputs.version }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+
+  release-scala-2-13:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout the repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: docker-compose
+          version: 1.0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup sbt launcher
+        uses: sbt/setup-sbt@v1
+
+      - name: Launch pulsar docker
+        run: docker-compose up -d
+
+      - name: Import GPG key
+        id: import_gpg
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PGP_PASSPHRASE }}
+
+      - name: GPG user IDs
+        run: |
+          echo "fingerprint: ${{ steps.import_gpg.outputs.fingerprint }}"
+          echo "keyid:       ${{ steps.import_gpg.outputs.keyid }}"
+          echo "name:        ${{ steps.import_gpg.outputs.name }}"
+          echo "email:       ${{ steps.import_gpg.outputs.email }}"
+
+      - name: run tests
+        run: sbt ++2.13 test
+
+      - name: publish release
+        run: sbt ++2.13 publishSigned
+        env:
+          RELEASE_VERSION: ${{ github.event.inputs.version }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+
+  release-scala-3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout the repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: docker-compose
+          version: 1.0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup sbt launcher
+        uses: sbt/setup-sbt@v1
+
+      - name: Launch pulsar docker
+        run: docker-compose up -d
+
+      - name: Import GPG key
+        id: import_gpg
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PGP_PASSPHRASE }}
+
+      - name: GPG user IDs
+        run: |
+          echo "fingerprint: ${{ steps.import_gpg.outputs.fingerprint }}"
+          echo "keyid:       ${{ steps.import_gpg.outputs.keyid }}"
+          echo "name:        ${{ steps.import_gpg.outputs.name }}"
+          echo "email:       ${{ steps.import_gpg.outputs.email }}"
+
+      - name: run tests
+        run: sbt ++3.3 test
+
+      - name: publish release
+        run: sbt ++3.3 publishSigned
+        env:
+          RELEASE_VERSION: ${{ github.event.inputs.version }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
