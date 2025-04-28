@@ -29,7 +29,7 @@ class Warp10ContainerSpecs extends AnyWordSpec
   private val Warp10FetchedHeader = "X-Warp10-Fetched"
   private val Warp10GTS = "1// test{} 42"
   private val Warp10UpdateAPI = "/api/v0/update"
-  private val Warp10Version = "2.7.5"
+  private val Warp10Version = "3.4.1-ubuntu-ci"
 
   val container: Warp10Container = Warp10Container(Warp10Version)
 
