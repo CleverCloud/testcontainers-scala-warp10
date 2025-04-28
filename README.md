@@ -9,5 +9,5 @@ Available for scala 2.13 and 3.
 ### sbt
 
 ```
-libraryDependencies += "com.clever-cloud" % "testcontainers-scala-warp10" %% "2.1.2"
+libraryDependencies += "com.clever-cloud" % "testcontainers-scala-warp10" %% "2.1.3"
 ```
