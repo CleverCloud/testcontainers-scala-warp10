@@ -93,5 +93,6 @@ jobs:
         env:
           RELEASE_VERSION: ${{ github.event.inputs.version }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
-          OSSRH_SECRETKEY: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          OSSRH_SECRETKEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          OSSRH_SECRETKEY_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
