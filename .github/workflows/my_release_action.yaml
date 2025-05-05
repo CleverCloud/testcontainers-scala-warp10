@@ -51,8 +51,9 @@ jobs:
         env:
           RELEASE_VERSION: ${{ github.event.inputs.version }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
-          OSSRH_SECRETKEY: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          OSSRH_SECRETKEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          OSSRH_SECRETKEY_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
 
   release-scala-3:
     runs-on: ubuntu-latest
@@ -86,10 +87,10 @@ jobs:
           echo "email:       ${{ steps.import_gpg.outputs.email }}"
 
       - name: run tests
-        run: sbt ++3.3 test
+        run: sbt ++3.6 test
 
       - name: publish release
-        run: sbt ++3.3 publishSigned
+        run: sbt ++3.6 publishSigned
         env:
           RELEASE_VERSION: ${{ github.event.inputs.version }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
