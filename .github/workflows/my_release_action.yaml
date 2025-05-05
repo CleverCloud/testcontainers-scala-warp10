@@ -12,47 +12,6 @@ on:
         default: "master"
 
 jobs:
-  release-scala-2-12:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout the repo
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 17
-
-      - name: Setup sbt launcher
-        uses: sbt/setup-sbt@v1
-
-      - name: Import GPG key
-        id: import_gpg
-        uses: crazy-max/ghaction-import-gpg@v6
-        with:
-          gpg_private_key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-          passphrase: ${{ secrets.PGP_PASSPHRASE }}
-
-      - name: GPG user IDs
-        run: |
-          echo "fingerprint: ${{ steps.import_gpg.outputs.fingerprint }}"
-          echo "keyid:       ${{ steps.import_gpg.outputs.keyid }}"
-          echo "name:        ${{ steps.import_gpg.outputs.name }}"
-          echo "email:       ${{ steps.import_gpg.outputs.email }}"
-
-      - name: run tests
-        run: sbt ++2.12 test
-
-      - name: publish release
-        run: sbt ++2.12 publishSigned
-        env:
-          RELEASE_VERSION: ${{ github.event.inputs.version }}
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-
   release-scala-2-13:
     runs-on: ubuntu-latest
     steps:
@@ -92,6 +51,8 @@ jobs:
         env:
           RELEASE_VERSION: ${{ github.event.inputs.version }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
+          OSSRH_SECRETKEY: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
 
   release-scala-3:
     runs-on: ubuntu-latest
@@ -132,3 +93,6 @@ jobs:
         env:
           RELEASE_VERSION: ${{ github.event.inputs.version }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          OSSRH_SECRETKEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          OSSRH_SECRETKEY_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}

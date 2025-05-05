@@ -5,6 +5,12 @@ lazy val akkaVersion = "2.8.8"
 ThisBuild / semanticdbVersion := "4.12.1"
 
 credentials += Credentials("GnuPG Key ID", "gpg", "B11C53C05D413713BDD3660FA7B8F38C536F1DF2", "ignored")
+credentials += Credentials(
+  "Sonatype Nexus Repository Manager",
+  "s01.oss.sonatype.org",
+  sys.env.getOrElse("OSSRH_USERNAME", ""),
+  sys.env.getOrElse("OSSRH_PASSWORD", "")
+)
 
 lazy val root = (project in file(".")).settings(
   organization := "com.clever-cloud",
