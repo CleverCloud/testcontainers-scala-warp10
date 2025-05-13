@@ -98,7 +98,18 @@ jobs:
           OSSRH_SECRETKEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
           OSSRH_SECRETKEY_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
 
-      - name: publish release
+      - name: Create credentials and Sonatype settings
+        run: |
+          mkdir -p ~/.sbt/1.0
+          cat > ~/.sbt/1.0/sonatype.sbt <<EOF
+          credentials += Credentials("Sonatype Nexus Repository Manager",
+            "s01.oss.sonatype.org",
+            "${{ secrets.OSSRH_USERNAME }}",
+            "${{ secrets.OSSRH_TOKEN }}")
+          sonatypeCredentialHost := "s01.oss.sonatype.org"
+          EOF
+
+      - name: publish sonatypeRelease
         run: sbt ++3.6 sonatypeRelease
         env:
           RELEASE_VERSION: ${{ github.event.inputs.version }}
