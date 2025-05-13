@@ -103,7 +103,7 @@ jobs:
           mkdir -p ~/.sbt/1.0
           cat > ~/.sbt/1.0/sonatype.sbt <<EOF
           credentials += Credentials("Sonatype Nexus Repository Manager",
-            "s01.oss.sonatype.org",
+            "oss.sonatype.org",
             "${{ secrets.OSSRH_USERNAME }}",
             "${{ secrets.OSSRH_TOKEN }}")
           EOF
