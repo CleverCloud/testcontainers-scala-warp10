@@ -1,15 +1,9 @@
 name: release
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: "The release version"
-        required: true
-      branch:
-        description: "The branch to release from"
-        required: true
-        default: "master"
+  push:
+    branches: ['**']
+    tags: [v*]
 
 jobs:
   release-scala-2-13:
