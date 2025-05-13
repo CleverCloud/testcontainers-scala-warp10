@@ -106,7 +106,6 @@ jobs:
             "s01.oss.sonatype.org",
             "${{ secrets.OSSRH_USERNAME }}",
             "${{ secrets.OSSRH_TOKEN }}")
-          sonatypeCredentialHost := "s01.oss.sonatype.org"
           EOF
 
       - name: publish sonatypeRelease
