@@ -55,6 +55,13 @@ jobs:
           OSSRH_SECRETKEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
           OSSRH_SECRETKEY_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
 
+      - env:
+          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+          PGP_SECRET: ${{ secrets.PGP_SECRET }}
+          SONATYPE_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          SONATYPE_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+        run: sbt ++2.13 ci-release
+
   release-scala-3:
     runs-on: ubuntu-latest
     steps:
@@ -89,30 +96,9 @@ jobs:
       - name: run tests
         run: sbt ++3.6 test
 
-      - name: publish release
-        run: sbt ++3.6 publishSigned
-        env:
-          RELEASE_VERSION: ${{ github.event.inputs.version }}
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          OSSRH_SECRETKEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-          OSSRH_SECRETKEY_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-
-      - name: Create credentials and Sonatype settings
-        run: |
-          mkdir -p ~/.sbt/1.0
-          cat > ~/.sbt/1.0/sonatype.sbt <<EOF
-          credentials += Credentials("Sonatype Nexus Repository Manager",
-            "oss.sonatype.org",
-            "${{ secrets.OSSRH_USERNAME }}",
-            "${{ secrets.OSSRH_TOKEN }}")
-          EOF
-
-      - name: publish sonatypeRelease
-        run: sbt ++3.6 sonatypeRelease
-        env:
-          RELEASE_VERSION: ${{ github.event.inputs.version }}
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          OSSRH_SECRETKEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-          OSSRH_SECRETKEY_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+      - env:
+          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+          PGP_SECRET: ${{ secrets.PGP_SECRET }}
+          SONATYPE_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          SONATYPE_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+        run: sbt ++3.6 ci-release
