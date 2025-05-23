@@ -44,8 +44,8 @@ jobs:
 
       - name: publish for scala 2.13
         env:
-          GPG_SECRET_KEY_PASSWORD: ${{ secrets.CENTRAL_GPG_SECRET_KEY_PASSWORD }}
-          GPG_SECRET_KEY: ${{ secrets.CENTRAL_GPG_SECRET_KEY }}
+          PGP_PASSPHRASE: ${{ secrets.CENTRAL_GPG_SECRET_KEY_PASSWORD }}
+          PGP_SECRET: ${{ secrets.CENTRAL_GPG_SECRET_KEY }}
           CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
         run: |
@@ -54,8 +54,8 @@ jobs:
 
       - name: publish for scala 3.6
         env:
-          GPG_SECRET_KEY_PASSWORD: ${{ secrets.CENTRAL_GPG_SECRET_KEY_PASSWORD }}
-          GPG_SECRET_KEY: ${{ secrets.CENTRAL_GPG_SECRET_KEY }}
+          PGP_PASSPHRASE: ${{ secrets.CENTRAL_GPG_SECRET_KEY_PASSWORD }}
+          PGP_SECRET: ${{ secrets.CENTRAL_GPG_SECRET_KEY }}
           CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
         run: |
