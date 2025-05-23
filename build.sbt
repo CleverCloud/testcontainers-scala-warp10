@@ -3,24 +3,12 @@ lazy val testContainersWarp10Version = "2.0.1"
 lazy val akkaVersion = "2.8.8"
 
 ThisBuild / semanticdbVersion := "4.12.1"
-/**
-credentials += Credentials("GnuPG Key ID", "gpg", "B11C53C05D413713BDD3660FA7B8F38C536F1DF2", "ignored")
-credentials += Credentials(
-  "Sonatype Nexus Repository Manager",
-  "s01.oss.sonatype.org",
-  sys.env.getOrElse("OSSRH_USERNAME", ""),
-  sys.env.getOrElse("OSSRH_PASSWORD", "")
-)
-*/
-
-ThisBuild / sonatypeCredentialHost := "s01.oss.sonatype.org"
-sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
 
 lazy val root = (project in file(".")).settings(
   organization := "com.clever-cloud",
-  scalaVersion := "2.13.15",
-  version := "2.1.3.3",
-  crossScalaVersions := Seq(scalaVersion.value, "3.6.2"),
+  scalaVersion := "2.13.16",
+  version := "2.1.3.4",
+  crossScalaVersions := Seq(scalaVersion.value, "3.6.4"),
   name := "testcontainers-scala-warp10",
   licenses := List("MIT" -> new URI("https://mit-license.org/").toURL()),
   homepage := Some(url("https://github.com/CleverCloud/testcontainers-scala-warp10")),
@@ -39,17 +27,8 @@ lazy val root = (project in file(".")).settings(
     "org.slf4j" % "slf4j-jdk14" % "2.0.16" % Test,
     ("io.moia" %% "scala-http-client" % "5.2.0" % Test).cross(CrossVersion.for3Use2_13)
   ),
-  //publishMavenStyle := true,
   Test / publishArtifact := false,
   pomIncludeRepository := { _ => false },
-/**  ThisBuild / publishTo := {
-    val nexus = "https://s01.oss.sonatype.org/"
-    if (isSnapshot.value)
-      Some("snapshots" at nexus + "content/repositories/snapshots")
-    else
-      Some("releases" at nexus + "service/local/staging/deploy/maven2")
-  },
-*/
   scmInfo := Some(
     ScmInfo(
       url("https://github.com/CleverCloud/testcontainers-scala-warp10"),
