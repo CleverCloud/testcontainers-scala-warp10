@@ -1,8 +1,11 @@
+import xerial.sbt.Sonatype.sonatypeCentralHost
+
 lazy val testContainersScalaVersion = "0.41.5"
 lazy val testContainersWarp10Version = "2.0.1"
 lazy val akkaVersion = "2.8.8"
 
 ThisBuild / semanticdbVersion := "4.12.1"
+ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
 
 lazy val root = (project in file(".")).settings(
   organization := "com.clever-cloud",
@@ -39,5 +42,11 @@ lazy val root = (project in file(".")).settings(
     Developer("judu", "Julien Durillon", "julien.durillon@clever-cloud.com", url("https://github.com/judu"))
   ),
   Test / fork := true,
+  credentials += Credentials(
+    "Sonatype Central",
+    sonatypeCentralHost,
+    sys.env.getOrElse("CENTRAL_USERNAME", ""),
+    sys.env.getOrElse("CENTRAL_TOKEN", "")
+  ),
   usePgpKeyHex("A7B8F38C536F1DF2")
 )

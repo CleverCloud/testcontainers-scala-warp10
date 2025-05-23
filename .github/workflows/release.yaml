@@ -26,8 +26,8 @@ jobs:
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v6
         with:
-          gpg_private_key: ${{ secrets.PGP_SECRET }}
-          passphrase: ${{ secrets.PGP_PASSPHRASE }}
+          gpg_private_key: ${{ secrets.CENTRAL_GPG_SECRET_KEY }}
+          passphrase: ${{ secrets.CENTRAL_GPG_SECRET_KEY_PASSWORD }}
 
       - name: GPG user IDs
         run: |
@@ -42,9 +42,22 @@ jobs:
       - name: run tests scala 3.6
         run: sbt ++3.6 test
 
-      - env:
-          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
-          PGP_SECRET: ${{ secrets.PGP_SECRET }}
-          SONATYPE_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          SONATYPE_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-        run: sbt ++3.6 ci-release
+      - name: publish for scala 2.13
+        env:
+          GPG_SECRET_KEY_PASSWORD: ${{ secrets.CENTRAL_GPG_SECRET_KEY_PASSWORD }}
+          GPG_SECRET_KEY: ${{ secrets.CENTRAL_GPG_SECRET_KEY }}
+          CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
+          CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+        run: |
+          sbt ++2.13 publishSigned
+          sbt ++2.13 sonatypeBundleRelease
+
+      - name: publish for scala 3.6
+        env:
+          GPG_SECRET_KEY_PASSWORD: ${{ secrets.CENTRAL_GPG_SECRET_KEY_PASSWORD }}
+          GPG_SECRET_KEY: ${{ secrets.CENTRAL_GPG_SECRET_KEY }}
+          CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
+          CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+        run: |
+          sbt ++3.6 publishSigned
+          sbt ++3.6 sonatypeBundleRelease
