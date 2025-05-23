@@ -32,21 +32,9 @@ lazy val root = (project in file(".")).settings(
   ),
   Test / publishArtifact := false,
   pomIncludeRepository := { _ => false },
-  scmInfo := Some(
-    ScmInfo(
-      url("https://github.com/CleverCloud/testcontainers-scala-warp10"),
-      "scm:git:git@github.com:CleverCloud/testcontainers-scala-warp10"
-    )
-  ),
   developers := List(
     Developer("judu", "Julien Durillon", "julien.durillon@clever-cloud.com", url("https://github.com/judu"))
   ),
   Test / fork := true,
-  credentials += Credentials(
-    "Sonatype Central",
-    sonatypeCentralHost,
-    sys.env.getOrElse("CENTRAL_USERNAME", ""),
-    sys.env.getOrElse("CENTRAL_TOKEN", "")
-  ),
   usePgpKeyHex("A7B8F38C536F1DF2")
 )
