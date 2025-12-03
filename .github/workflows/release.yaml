@@ -25,8 +25,8 @@ jobs:
       - name: run tests scala 2.13
         run: sbt ++2.13 test
 
-      - name: run tests scala 3.6
-        run: sbt ++3.6 test
+      - name: run tests scala 3.7
+        run: sbt ++3.7 test
 
       - name: publish
         env:
