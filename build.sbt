@@ -6,11 +6,12 @@ lazy val akkaVersion = "2.8.8"
 
 ThisBuild / semanticdbVersion := "4.12.3"
 ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
+ThisBuild / versionScheme := Some("early-semver")
 
 lazy val root = (project in file(".")).settings(
   organization := "com.clever-cloud",
   scalaVersion := "2.13.18",
-  version := "2.2.3",
+  version := "2.2.4",
   crossScalaVersions := Seq(scalaVersion.value, "3.7.4"),
   name := "testcontainers-scala-warp10",
   licenses := List("MIT" -> new URI("https://mit-license.org/").toURL()),
@@ -34,6 +35,12 @@ lazy val root = (project in file(".")).settings(
   pomIncludeRepository := { _ => false },
   developers := List(
     Developer("judu", "Julien Durillon", "julien.durillon@clever-cloud.com", url("https://github.com/judu"))
+  ),
+  scmInfo := Some(
+    ScmInfo(
+      url("https://github.com/CleverCloud/testcontainers-scala-warp10"),
+      "scm:git@github.com:CleverCloud/testcontainers-scala-warp10.git"
+    )
   ),
   Test / fork := true,
   usePgpKeyHex("A7B8F38C536F1DF2")
