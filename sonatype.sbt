@@ -1,6 +1,9 @@
 // To sync with Maven central, you need to supply the following information:
 publishMavenStyle := true
 
+// Publish to Sonatype Central
+publishTo := sonatypePublishToBundle.value
+
 // Open-source license of your choice
 licenses := Seq("MIT" -> url("https://mit-license.org/"))
 
