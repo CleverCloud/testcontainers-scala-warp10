@@ -37,6 +37,35 @@ case class Warp10Container(
   def readToken: String = container.getReadToken
 
   def writeToken: String = container.getWriteToken
+
+  /**
+   * Gets all crypto keys as a Scala case class.
+   *
+   * @return Some(Warp10CryptoKeys) containing AES and SipHash keys, or None if not yet extracted
+   */
+  def cryptoKeys: Option[Warp10CryptoKeys] =
+    Warp10CryptoKeys.fromJava(container.getCryptoKeys)
+
+  /**
+   * Gets the AES key used for token encryption.
+   *
+   * @return The AES token key as a hex string (64 characters = 32 bytes), or null if not available
+   */
+  def aesTokenKey: String = container.getAesTokenKey
+
+  /**
+   * Gets the SipHash key used for application hashing.
+   *
+   * @return The SipHash app key as a hex string (32 characters = 16 bytes), or null if not available
+   */
+  def sipHashApp: String = container.getSipHashApp
+
+  /**
+   * Gets the SipHash key used for token hashing.
+   *
+   * @return The SipHash token key as a hex string (32 characters = 16 bytes), or null if not available
+   */
+  def sipHashToken: String = container.getSipHashToken
 }
 
 object Warp10Container {

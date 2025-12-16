@@ -1,7 +1,7 @@
 import xerial.sbt.Sonatype.sonatypeCentralHost
 
 lazy val testContainersScalaVersion = "0.44.0"
-lazy val testContainersWarp10Version = "2.0.2"
+lazy val testContainersWarp10Version = "2.1.0"
 lazy val akkaVersion = "2.8.8"
 
 ThisBuild / semanticdbVersion := "4.12.3"
@@ -11,7 +11,7 @@ ThisBuild / versionScheme := Some("early-semver")
 lazy val root = (project in file(".")).settings(
   organization := "com.clever-cloud",
   scalaVersion := "2.13.18",
-  version := "2.2.6",
+  version := "2.3.0",
   crossScalaVersions := Seq(scalaVersion.value, "3.7.4"),
   name := "testcontainers-scala-warp10",
   licenses := List("MIT" -> new URI("https://mit-license.org/").toURL()),

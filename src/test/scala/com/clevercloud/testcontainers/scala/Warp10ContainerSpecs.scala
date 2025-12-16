@@ -45,6 +45,31 @@ class Warp10ContainerSpecs extends AnyWordSpec
       assert(container.readToken != null)
       assert(container.writeToken != null)
     }
+
+    "extract crypto keys" in {
+      container.container.isRunning shouldBe (true)
+
+      val cryptoKeysOpt = container.cryptoKeys
+      cryptoKeysOpt shouldBe defined
+      cryptoKeysOpt.foreach { keys =>
+        keys.isValid shouldBe true
+        keys.aesTokenKey.length shouldBe 64
+        keys.sipHashApp.length shouldBe 32
+        keys.sipHashToken.length shouldBe 32
+      }
+
+      container.aesTokenKey should not be null
+      container.sipHashApp should not be null
+      container.sipHashToken should not be null
+
+      container.aesTokenKey.length shouldBe 64
+      container.sipHashApp.length shouldBe 32
+      container.sipHashToken.length shouldBe 32
+
+      container.aesTokenKey should fullyMatch regex "[0-9a-fA-F]+"
+      container.sipHashApp should fullyMatch regex "[0-9a-fA-F]+"
+      container.sipHashToken should fullyMatch regex "[0-9a-fA-F]+"
+    }
     "write to and read from warp10" in {
       implicit val patienceConfig: PatienceConfig = PatienceConfig(timeout = Span(5, Seconds), interval = Span(50, Milliseconds))
 
